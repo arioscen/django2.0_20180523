@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django import forms
 from .models import User
@@ -49,6 +49,7 @@ def create(request):
 
 
 def login(request):
+    previous = ''
     if request.user.is_authenticated:
         return HttpResponseRedirect('/admin/')
     if request.method == 'POST':
@@ -59,12 +60,20 @@ def login(request):
 
         if user is not None and user.is_active:
             auth.login(request, user)
+            previous = request.POST.get('previous', '')
+            if previous:
+                return redirect(previous)
             return HttpResponseRedirect('/admin/')
         else:
             messages.add_message(request, messages.ERROR, 'not a valid email or password access')
-    return render(request, 'users/login.html')
+    else:
+        previous = request.GET.get('previous', '')
+    return render(request, 'users/login.html', {"previous": previous})
 
 
 def logout(request):
     auth.logout(request)
+    previous = request.GET.get('previous', '')
+    if previous:
+        return redirect(previous)
     return HttpResponseRedirect('/admin/')
