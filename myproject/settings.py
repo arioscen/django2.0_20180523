@@ -11,10 +11,18 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from configparser import ConfigParser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Read the config
+CONFIG_PATH = os.path.join(BASE_DIR, 'config.ini')
+configs = [
+    CONFIG_PATH,
+]
+parser = ConfigParser()
+parser.read(configs)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -31,6 +39,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap4',
     'foo.apps.FooConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
@@ -56,7 +65,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,8 +86,12 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': parser.get('MySQL', 'DB') if parser.has_option('MySQL', 'DB') else 'myproject',
+        'USER': parser.get('MySQL', 'USER') if parser.has_option('MySQL', 'USER') else 'root',
+        'PASSWORD': parser.get('MySQL', 'PWD') if parser.has_option('MySQL', 'PWD') else '1',
+        'HOST': parser.get('MySQL', 'HOST') if parser.has_option('MySQL', 'HOST') else '',
+        'PORT': '',
     }
 }
 
