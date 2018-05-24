@@ -28,12 +28,12 @@
                             {{ user.email }} <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'users:logout' %}?previous={{ request.path|urlencode }}">Logout</a>
+                            <a class="dropdown-item" href="{% url 'users:logout' %}?next={{ request.path|urlencode }}">Logout</a>
                         </div>
                     </li>
                 {% else %}
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'users:login' %}?previous={{ request.path|urlencode }}">Login</a>
+                        <a class="nav-link" href="{% url 'users:login' %}?next={{ request.path|urlencode }}">Login</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'users:create' %}">Register</a>
