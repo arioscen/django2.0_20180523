@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.views import login as auth_login, logout as auth_logout
 from .forms import UserForm, UserAuthenticationForm
-
+from .models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Permission
 
 def create(request):
     if request.method == 'POST':
@@ -21,3 +23,27 @@ def login(request):
 
 def logout(request):
     return auth_logout(request, template_name='users/logout.html')
+
+
+@login_required
+def index(request):
+    return render(request, 'users/index.html')
+
+
+@login_required
+def get_data(request):
+    users = User.objects.all()
+    users_count = users.count()
+    users = [user.as_json() for user in users]
+    return JsonResponse({"total": users_count, "rows": users})
+
+
+def permission(request, oid):
+    user = User.objects.get(oid=oid)
+    user_permissions = Permission.objects.filter(user=user)
+    all_permissions = Permission.objects.all()
+    other_permissions = [p for p in all_permissions if p not in user_permissions]
+    return render(request, 'users/permission.html', context={
+        "user_permissions": user_permissions,
+        "other_permissions": other_permissions
+    })

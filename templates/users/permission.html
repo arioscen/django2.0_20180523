@@ -1,0 +1,44 @@
+{% extends 'layout/base.html' %}
+{% block title %}Logout{% endblock %}
+{% block main %}
+    {% load bootstrap4 %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">Logout</div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect2">Example multiple select</label>
+                                        <select multiple class="form-control" size="15">
+                                            {% for permission in other_permissions%}
+                                                <option>{{ permission.codename }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-1 align-self-center">
+                                    <button type="button" class="btn btn-info my-1">Add</button>
+                                    <button type="button" class="btn btn-warning my-1">Delete</button>
+                                </div>
+                                <div class="col-5">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect2">Example multiple select</label>
+                                        <select multiple class="form-control" size="15">
+                                            {% for permission in user_permissions%}
+                                                <option>{{ permission.codename }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

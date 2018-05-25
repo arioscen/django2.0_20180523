@@ -1,0 +1,59 @@
+{% extends 'layout/base.html' %}
+{% block title %}Logout{% endblock %}
+{% block main %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+    {% load bootstrap4 %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">UserList</div>
+                    <div class="card-body">
+                        <table id="UserList"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#UserList').bootstrapTable({
+            url: '/users/get_data',
+            search: false,
+            pagination: true,
+            toolbar: '#ImExport',
+            pageSize: 10,
+            sortName: 'role',
+            sortOrder: 'desc',
+            sidePagination: 'server',
+            queryParams: function(params) {
+                return {
+                    limit: params.limit,
+                    offset: params.offset,
+                    search: params.search,
+                    sort: params.sort,
+                    order: params.order
+                };
+            },
+            columns: [
+                {
+                    field: 'email',
+                    title: 'email'
+                },
+                {
+                    field: 'is_active',
+                    title: 'is_active'
+                },
+                {
+                    field: 'is_staff',
+                    title: 'is_staff'
+                },
+                {
+                    formatter: function(value, row) {
+                        return '<a class="btn btn-info" href="/users/'+row.oid+'/permission'+'" role="button">Permission</a>'
+                    }
+                },
+            ],
+        });
+    </script>
+{% endblock %}

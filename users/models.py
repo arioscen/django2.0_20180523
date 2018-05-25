@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
-
+import uuid
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -27,6 +27,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    oid = models.CharField(primary_key=True, default=uuid.uuid1, max_length=36)
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -37,4 +38,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    def as_json(self):
+        return dict(
+            oid=self.oid,
+            email=self.email,
+            is_active=self.is_active,
+            is_staff=self.is_staff
+        )
 
