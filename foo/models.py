@@ -2,4 +2,5 @@ from django.db import models
 
 
 class Bar(models.Model):
-    name = models.CharField(max_length=512)
+    title = models.CharField(max_length=16)
+    content = models.CharField(max_length=512)

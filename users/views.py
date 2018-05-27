@@ -5,6 +5,8 @@ from .forms import UserForm, UserAuthenticationForm
 from .models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
+from django.contrib import messages
+
 
 def create(request):
     if request.method == 'POST':
@@ -38,11 +40,21 @@ def get_data(request):
     return JsonResponse({"total": users_count, "rows": users})
 
 
+@login_required
 def permission(request, oid):
     user = User.objects.get(oid=oid)
+
+    if request.method == "POST":
+        user.user_permissions.clear()
+        ids = request.POST.getlist('select2')
+        for id in ids:
+            perm = Permission.objects.get(id=id)
+            user.user_permissions.add(perm)
+        messages.add_message(request, messages.SUCCESS, 'permission edit success')
+
     user_permissions = Permission.objects.filter(user=user)
     all_permissions = Permission.objects.all()
-    other_permissions = [p for p in all_permissions if p not in user_permissions]
+    other_permissions = [perm for perm in all_permissions if perm not in user_permissions]
     return render(request, 'users/permission.html', context={
         "user_permissions": user_permissions,
         "other_permissions": other_permissions

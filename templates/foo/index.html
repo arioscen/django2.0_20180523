@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>BAR</title>
-</head>
-<body>
-BAR
-</body>
-</html>
+{% extends 'layout/base.html' %}
+{% block title %}Foo{% endblock %}
+{% block main %}
+    {% load bootstrap4 %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">Add</div>
+                    <div class="card-body">
+                        Add
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

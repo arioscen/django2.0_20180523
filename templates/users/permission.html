@@ -8,37 +8,56 @@
                 <div class="card">
                     <div class="card-header">Logout</div>
                     <div class="card-body">
-                        <form>
+                        <form action="" method="post" onsubmit="return formSubmit(this)">
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-5">
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                        <select multiple class="form-control" size="15">
+                                        <label for="select1">Example multiple select</label>
+                                        <select multiple class="form-control" id="select1" name="select1" size="15">
                                             {% for permission in other_permissions%}
-                                                <option>{{ permission.codename }}</option>
+                                                <option value="{{ permission.id }}">{{ permission.codename }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-1 align-self-center">
-                                    <button type="button" class="btn btn-info my-1">Add</button>
-                                    <button type="button" class="btn btn-warning my-1">Delete</button>
+                                    <button type="button" class="btn btn-info btn-block my-1" id="add">Add</button>
+                                    <button type="button" class="btn btn-warning btn-block my-1" id="remove">Remove</button>
                                 </div>
                                 <div class="col-5">
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                        <select multiple class="form-control" size="15">
+                                        <label for="select2">Example multiple select</label>
+                                        <select multiple class="form-control" id="select2" name="select2" size="15">
                                             {% for permission in user_permissions%}
-                                                <option>{{ permission.codename }}</option>
+                                                <option value="{{ permission.id }}">{{ permission.codename }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                             </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $("#add").click(function () {
+                var $option = $("#select1 option:selected");
+                $option.appendTo("#select2");
+            });
+            $("#remove").click(function () {
+                var $option = $("#select2 option:selected");
+                $option.appendTo("#select1");
+            });
+        });
+        function formSubmit() {
+            $("#select2").children().each(function(){
+                this.selected = true;
+            });
+        }
+    </script>
 {% endblock %}
