@@ -6,6 +6,8 @@ from .models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Permission
 from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
+from foo.models import Bar
 
 
 def create(request):
@@ -52,8 +54,11 @@ def permission(request, oid):
             user.user_permissions.add(perm)
         messages.add_message(request, messages.SUCCESS, 'permission edit success')
 
+    bar_content_type = ContentType.objects.get_for_model(Bar)
+    bar_perms = Permission.objects.filter(content_type=bar_content_type)
+    all_permissions = list(bar_perms)
+
     user_permissions = Permission.objects.filter(user=user)
-    all_permissions = Permission.objects.all()
     other_permissions = [perm for perm in all_permissions if perm not in user_permissions]
     return render(request, 'users/permission.html', context={
         "user_permissions": user_permissions,
