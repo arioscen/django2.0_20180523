@@ -6,7 +6,9 @@
     <div class="container-fluid">
         <div class="row my-2">
             <div class="col-4">
-                <a class="btn btn-primary" href="{% url 'foo:create' %}" role="button">Create</a>
+                {% if perms.foo.add_bar %}
+                    <a class="btn btn-primary" href="{% url 'foo:create' %}" role="button">Create</a>
+                {% endif %}
             </div>
         </div>
         {% for bar in bars%}
@@ -18,8 +20,12 @@
                     </div>
                 </div>
                 <div class="col-2 align-self-center">
-                    <a class="btn btn-success" href="{% url 'foo:edit' id=bar.id %}" role="button">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'foo:delete' id=bar.id %}" role="button">Delete</a>
+                    {% if perms.foo.change_bar %}
+                        <a class="btn btn-success" href="{% url 'foo:edit' id=bar.id %}" role="button">Edit</a>
+                    {% endif %}
+                    {% if perms.foo.delete_bar %}
+                        <a class="btn btn-danger" href="{% url 'foo:delete' id=bar.id %}" role="button">Delete</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
