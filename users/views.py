@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.views import login as auth_login, logout as auth_logout
 from .forms import UserForm, UserAuthenticationForm
@@ -13,7 +13,7 @@ def create(request):
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(request.path)
+            return redirect(reverse('users:index'))
     else:
         form = UserForm()
     return render(request, 'users/create.html', {'form': form})

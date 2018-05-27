@@ -18,7 +18,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="">Home</a>
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'users:index' %}">User</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -48,30 +51,10 @@
             <nav class="col-2 d-none d-sm-block navbar-dark bg-secondary position-fixed" style="min-height: 100vh;">
                 <ul class="navbar-nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
+                        <a class="nav-link active" href="#"><h3>Test001</h3></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Reports</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Analytics</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Export</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Overview <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Reports</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Analytics</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Export</a>
+                        <a class="nav-link" href="#"><h3>Test002</h3></a>
                     </li>
                 </ul>
             </nav>

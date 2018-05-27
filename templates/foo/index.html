@@ -2,16 +2,26 @@
 {% block title %}Foo{% endblock %}
 {% block main %}
     {% load bootstrap4 %}
+    <h1>Foo</h1>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row my-2">
             <div class="col-4">
-                <div class="card">
-                    <div class="card-header">Add</div>
-                    <div class="card-body">
-                        Add
-                    </div>
-                </div>
+                <a class="btn btn-primary" href="{% url 'foo:create' %}" role="button">Create</a>
             </div>
         </div>
+        {% for bar in bars%}
+            <div class="row my-2">
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-header">{{ bar.title }}</div>
+                        <div class="card-body">{{ bar.content }}</div>
+                    </div>
+                </div>
+                <div class="col-2 align-self-center">
+                    <a class="btn btn-success" href="{% url 'foo:edit' id=bar.id %}" role="button">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'foo:delete' id=bar.id %}" role="button">Delete</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
