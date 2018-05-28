@@ -1,0 +1,25 @@
+{% extends 'layout/base.html' %}
+{% block title %}Files{% endblock %}
+{% block main %}
+    {% load bootstrap4 %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4 my-2">
+                <a class="btn btn-primary" href="{% url 'files:upload' %}" role="button">Upload</a>
+                <a class="btn btn-primary" href="{% url 'files:uploads' %}" role="button">Uploads</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">Files</div>
+                    <div class="card-body">
+                        {% for file in files %}
+                            <div>{{ file }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

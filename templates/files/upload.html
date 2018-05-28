@@ -1,0 +1,21 @@
+{% extends 'layout/base.html' %}
+{% block title %}Upload File{% endblock %}
+{% block main %}
+    {% load bootstrap4 %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">Upload</div>
+                    <div class="card-body">
+                        <form enctype="multipart/form-data" action="" method="post">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
