@@ -6,6 +6,7 @@ import os
 from django.conf import settings
 from django.http import HttpResponse
 from wsgiref.util import FileWrapper
+from django.contrib import messages
 
 
 def index(request):
@@ -14,7 +15,9 @@ def index(request):
         files = os.listdir(folder)
     else:
         files = []
-    return render(request, 'files/index.html', {"files": files})
+
+    upload_form = UploadFileForm()
+    return render(request, 'files/index.html', {"files": files, "upload_form": upload_form})
 
 
 def upload(request):
@@ -22,6 +25,7 @@ def upload(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'])
+            messages.add_message(request, messages.SUCCESS, 'file uploaded')
             return redirect(reverse('files:index'))
     else:
         form = UploadFileForm()
