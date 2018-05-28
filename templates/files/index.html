@@ -15,7 +15,9 @@
                     <div class="card-header">Files</div>
                     <div class="card-body">
                         {% for file in files %}
-                            <div>{{ file }}</div>
+                            <div>
+                                <a href="{% url 'files:download' filename=file %}">{{ file }}</a>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>

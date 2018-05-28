@@ -134,3 +134,5 @@ AUTH_USER_MODEL = 'users.user'
 
 LOGIN_URL = '/users/login'
 LOGIN_REDIRECT_URL = ''
+
+UPLOAD_FILE_FOLDER = '/tmp/test'

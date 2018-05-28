@@ -1,8 +1,9 @@
 import os
+from django.conf import settings
 
 
 def handle_uploaded_file(f):
-    folder = '/tmp/test'
+    folder = settings.UPLOAD_FILE_FOLDER
     if not os.path.exists(folder):
         os.mkdir(folder)
 

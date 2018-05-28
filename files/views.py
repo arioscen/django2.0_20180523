@@ -3,10 +3,13 @@ from django.views.generic.edit import FormView
 from .forms import UploadFileForm, FileFieldForm
 from .tools import handle_uploaded_file
 import os
+from django.conf import settings
+from django.http import HttpResponse
+from wsgiref.util import FileWrapper
 
 
 def index(request):
-    folder = '/tmp/test'
+    folder = settings.UPLOAD_FILE_FOLDER
     if os.path.isdir(folder):
         files = os.listdir(folder)
     else:
@@ -42,3 +45,14 @@ class FileFieldView(FormView):
 
     def get_success_url(self):
         return reverse('files:index')
+
+
+def download(request, filename):
+    folder = settings.UPLOAD_FILE_FOLDER
+    path = os.path.join(folder, filename)
+
+    with open(path, 'rb') as f:
+        response = HttpResponse(FileWrapper(f), content_type='text/plain')
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        response['Content-Length'] = os.path.getsize(path)
+        return response
