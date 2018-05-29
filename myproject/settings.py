@@ -41,6 +41,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'files.apps.FilesConfig',
     'bootstrap4',
     'foo.apps.FooConfig',
     'users.apps.UsersConfig',

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.edit import FormView
 from .forms import UploadFileForm, FileFieldForm
-from .tools import handle_uploaded_file
+from .tools import handle_uploaded_file, handle_uploaded_file2
 import os
 from django.conf import settings
 from django.http import HttpResponse
@@ -17,7 +17,7 @@ def index(request):
     else:
         files = []
 
-    file_number = len(files)
+    file_number = len(files) if files else 1
     files_limit = 10
     total_page = int(math.ceil(float(file_number)/float(files_limit)))
     try:
@@ -25,7 +25,7 @@ def index(request):
     except ValueError:
         page = 0
 
-    pages_limit = 9
+    pages_limit = 9 if 9 < total_page else total_page
     pages = [page]
     while len(pages) < pages_limit:
         if pages[0] > 0:
@@ -58,7 +58,7 @@ def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
+            handle_uploaded_file2(request.FILES['file'])
             messages.add_message(request, messages.SUCCESS, 'file uploaded')
         else:
             for field in form:
@@ -93,7 +93,6 @@ class FileFieldView(FormView):
             for error in field.errors:
                 messages.add_message(self.request, messages.ERROR, error)
         return redirect(reverse('files:index'))
-
 
 
 def download(request, filename):
