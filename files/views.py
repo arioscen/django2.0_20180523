@@ -7,18 +7,49 @@ from django.conf import settings
 from django.http import HttpResponse
 from wsgiref.util import FileWrapper
 from django.contrib import messages
+import math
 
 
 def index(request):
     folder = settings.UPLOAD_FILE_FOLDER
     if os.path.isdir(folder):
-        files = os.listdir(folder)
+        files = sorted(os.listdir(folder))
     else:
         files = []
 
+    file_number = len(files)
+    file_in_page = 10
+    total_page = int(math.ceil(float(file_number)/float(file_in_page)))
+    try:
+        page = int(request.GET.get('page', ''))
+    except ValueError:
+        page = 0
+
+    pages_limit = 9
+    pages = [page]
+    while len(pages) < pages_limit:
+        if pages[0] > 0:
+            pages.insert(0, pages[0]-1)
+        if pages[-1] < (total_page-1):
+            pages.append(pages[-1]+1)
+
+    start = page*file_in_page
+    end = (page+1)*file_in_page
+    files = files[start:end]
+
     upload_form = UploadFileForm()
     uploads_form = FileFieldForm()
-    return render(request, 'files/index.html', {"files": files, "upload_form": upload_form, "uploads_form": uploads_form})
+    return render(
+        request,
+        'files/index.html',
+        {
+            "files": files,
+            "upload_form": upload_form,
+            "uploads_form": uploads_form,
+            "pages": pages,
+            "page": page,
+        }
+    )
 
 
 def upload(request):
