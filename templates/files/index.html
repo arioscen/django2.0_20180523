@@ -20,20 +20,24 @@
                     <div class="card-header">Files</div>
                     <div class="card-body">
                         {% for file in files %}
-                            <div>
-                                <a href="{% url 'files:download' filename=file %}">{{ file }}</a>
-                            </div>
+                            {% if file %}
+                                <div>
+                                    <a href="{% url 'files:download' filename=file %}">{{ file }}</a>
+                                </div>
+                            {% else %}
+                                <div>&nbsp;</div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row d-none d-xl-block">
             <div class="col-4">
                 <nav class="row justify-content-center" aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
-                            <a class="page-link" href="{% url 'files:index' %}?page=0" aria-label="Previous">
+                            <a class="page-link" href="{% url 'files:index' %}?page={{ pages|first }}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span class="sr-only">Previous</span>
                             </a>
@@ -46,7 +50,7 @@
                             {% endif %}
                         {% endfor %}
                         <li class="page-item">
-                            <a class="page-link" href="{% url 'files:index' %}?page={{ total_page|last }}" aria-label="Next">
+                            <a class="page-link" href="{% url 'files:index' %}?page={{ pages|last }}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                                 <span class="sr-only">Next</span>
                             </a>

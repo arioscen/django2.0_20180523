@@ -18,8 +18,8 @@ def index(request):
         files = []
 
     file_number = len(files)
-    file_in_page = 10
-    total_page = int(math.ceil(float(file_number)/float(file_in_page)))
+    files_limit = 10
+    total_page = int(math.ceil(float(file_number)/float(files_limit)))
     try:
         page = int(request.GET.get('page', ''))
     except ValueError:
@@ -33,9 +33,11 @@ def index(request):
         if pages[-1] < (total_page-1):
             pages.append(pages[-1]+1)
 
-    start = page*file_in_page
-    end = (page+1)*file_in_page
+    start = page*files_limit
+    end = (page+1)*files_limit
     files = files[start:end]
+    while len(files) < files_limit:
+        files.append('')
 
     upload_form = UploadFileForm()
     uploads_form = FileFieldForm()
