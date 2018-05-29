@@ -17,7 +17,8 @@ def index(request):
         files = []
 
     upload_form = UploadFileForm()
-    return render(request, 'files/index.html', {"files": files, "upload_form": upload_form})
+    uploads_form = FileFieldForm()
+    return render(request, 'files/index.html', {"files": files, "upload_form": upload_form, "uploads_form": uploads_form})
 
 
 def upload(request):
