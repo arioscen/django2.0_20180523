@@ -17,4 +17,4 @@ def handle_uploaded_file(f):
 
 
 def handle_uploaded_file2(f):
-    File.objects.create(data=f)
+    File.objects.create(data=f.read())
