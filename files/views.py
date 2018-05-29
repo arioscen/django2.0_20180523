@@ -60,7 +60,11 @@ def upload(request):
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'])
             messages.add_message(request, messages.SUCCESS, 'file uploaded')
-            return redirect(reverse('files:index'))
+        else:
+            for field in form:
+                for error in field.errors:
+                    messages.add_message(request, messages.ERROR, error)
+        return redirect(reverse('files:index'))
     else:
         form = UploadFileForm()
     return render(request, 'files/upload.html', {'form': form})
@@ -83,6 +87,13 @@ class FileFieldView(FormView):
 
     def get_success_url(self):
         return reverse('files:index')
+
+    def form_invalid(self, form):
+        for field in form:
+            for error in field.errors:
+                messages.add_message(self.request, messages.ERROR, error)
+        return redirect(reverse('files:index'))
+
 
 
 def download(request, filename):
