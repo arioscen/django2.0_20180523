@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 from configparser import ConfigParser
+from django.utils.translation import gettext_lazy as _
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -58,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -136,3 +139,13 @@ LOGIN_URL = '/users/login'
 LOGIN_REDIRECT_URL = ''
 
 UPLOAD_FILE_FOLDER = '/tmp/test'
+
+LANGUAGES = (
+    ('en-us', _('English')),
+    ('test-TE', _('繁體中文')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "locale"),
+    os.path.join(BASE_DIR, 'templates/locale')
+)
