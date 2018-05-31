@@ -7,4 +7,5 @@ urlpatterns = [
     path('upload/', upload, name='upload'),
     path('uploads/', FileFieldView.as_view(), name='uploads'),
     path('download/<str:filename>', download, name='download'),
+    path('add', add, name='add'),
 ]

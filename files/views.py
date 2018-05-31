@@ -4,10 +4,11 @@ from .forms import UploadFileForm, FileFieldForm
 from .tools import handle_uploaded_file, handle_uploaded_file2
 import os
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from wsgiref.util import FileWrapper
 from django.contrib import messages
 import math
+from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
@@ -104,3 +105,22 @@ def download(request, filename):
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
         response['Content-Length'] = os.path.getsize(path)
         return response
+
+
+@csrf_exempt
+def add(request):
+    if request.method == 'POST':
+        f = request.FILES['file']
+
+        folder = settings.UPLOAD_FILE_FOLDER
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+        filename = f.name
+        path = os.path.join(folder, filename)
+
+        with open(path, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)
+        return JsonResponse({"result": "success"})
+    else:
+        return JsonResponse({"error": "method error"})
