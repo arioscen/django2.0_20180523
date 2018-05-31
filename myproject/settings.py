@@ -41,6 +41,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'polls.apps.PollsConfig',
     'files.apps.FilesConfig',
     'bootstrap4',
     'foo.apps.FooConfig',
