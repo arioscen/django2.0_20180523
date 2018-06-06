@@ -1,4 +1,4 @@
-## custom django user & permission
+## django2.0_20180523
 python 3.6.4 \
 django 2.0.5 \
 django-bootstrap4 0.0.6
