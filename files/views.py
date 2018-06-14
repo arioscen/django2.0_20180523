@@ -124,3 +124,22 @@ def add(request):
         return JsonResponse({"result": "success"})
     else:
         return JsonResponse({"error": "method error"})
+
+
+@csrf_exempt
+def test(request):
+    return render(request, 'files/test.html')
+
+
+@csrf_exempt
+def test_get(request):
+    return JsonResponse({"result": "success"})
+
+
+@csrf_exempt
+def test_post(request):
+    file = request.FILES['file']
+    print(file.name)
+    name = request.POST['name']
+    print(name)
+    return JsonResponse({"result": "success"})

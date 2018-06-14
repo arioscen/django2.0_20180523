@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+</head>
+<body>
+    <form id="form">
+        <input v-model="name">
+        <input v-model="text">
+        <input type="file" id="file" ref="myFiles" @change="previewFiles">
+        <button v-on:click="get">Get</button>
+        <button v-on:click="post">Post</button>
+    </form>
+    <script>
+        var form = new Vue({
+            el: '#form',
+            data: {
+                name: 'name',
+                text: 'text'
+            },
+            methods:{
+                get: function() {
+                    axios.get('/files/test_get')
+                        .then(function (response) {
+                            alert(response.data.result);
+                        })
+                        .catch(function (error) {
+                            alert(error);
+                        });
+                },
+                post: function() {
+                    var data = new FormData();
+                    data.append('name', this.name);
+                    data.append('text', this.text);
+                    data.append('file', this.files[0]);
+                    axios.post('/files/test_post', data)
+                    .then(function (response) {
+                        alert(response.data.result);
+                    })
+                    .catch(function (error) {
+                        alert(error);
+                    });
+                },
+                previewFiles() {
+                    this.files = this.$refs.myFiles.files
+                }
+            }
+        })
+    </script>
+</body>
+</html>
