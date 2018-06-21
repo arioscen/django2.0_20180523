@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}Title{% endblock %}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
     <style>
         .sidebar-item:hover {
             background-color: black;
@@ -23,14 +24,14 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+            <ul class="navbar-nav mr-auto" id="nav-ul">
+                <li class="nav-item" v-bind:class="{ active: homeActive }">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-bind:class="{ active: userActive }">
                     <a class="nav-link" href="{% url 'users:index' %}">User</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-bind:class="{ active: fileActive }">
                     <a class="nav-link" href="{% url 'files:index' %}">File</a>
                 </li>
             </ul>
@@ -109,9 +110,18 @@
                 },
                 success: function(data) {
                     location.reload();
-                },
+                }
             });
         }
+
+        var vm = new Vue({
+            el: "#nav-ul",
+            data: {
+                homeActive: '{{ request.path }}' == "/",
+                userActive: '{{ request.path }}' == "/users/",
+                fileActive: '{{ request.path }}' == "/files/",
+            }
+        })
     </script>
 </body>
 </html>
