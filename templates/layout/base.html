@@ -3,11 +3,16 @@
 {% load bootstrap4 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Title{% endblock %}</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <style>
+        .sidebar-item:hover {
+            background-color: black;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class="navbar-brand" href="/">Arioscen</a></nav>
@@ -66,8 +71,8 @@
             <div style="width:10%"></div>
             <nav class="d-none d-sm-block navbar-dark bg-dark position-fixed" style="min-height: 100vh; width:10%">
                 <ul class="navbar-nav flex-column">
-                    <li class="nav-item mt-1 ml-3" data-toggle="collapse" data-target="#test001">
-                        <a class="nav-link" href="#"><i class="fa fa-fw fa-desktop"></i> Test001</a>
+                    <li class="sidebar-item nav-item" data-toggle="collapse" data-target="#test001">
+                        <a class="nav-link ml-3" href="#"><i class="fa fa-fw fa-desktop"></i> Test001</a>
                     </li>
                     <div class="collapse bg-secondary" id="test001">
                         <li class="nav-item mt-1 ml-5">
@@ -75,8 +80,8 @@
                             <a class="nav-link" href="#">Test001-2</a>
                         </li>
                     </div>
-                    <li class="nav-item mt-1 ml-3" data-toggle="collapse" data-target="#test002">
-                        <a class="nav-link" href="#"><i class="fa fa-fw fa-desktop"></i> Test002</a>
+                    <li class="sidebar-item nav-item" data-toggle="collapse" data-target="#test002">
+                        <a class="nav-link ml-3" href="#"><i class="fa fa-fw fa-desktop"></i> Test002</a>
                     </li>
                     <div class="collapse bg-secondary" id="test002">
                         <li class="nav-item mt-1 ml-5">
